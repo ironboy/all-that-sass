@@ -39,7 +39,7 @@ to start watching a folder and compiling *scss* to *css*.
 #### Usage with your own settings
 Most probably you might want to change a few settings. For example, the path to the folder to watch might be *./scss*, the path to the main scss file might be *./scss/main.scss* and you might want to output the compiled scss to the path *./public/style.css*...
 
-In that case would call **all-that-sass** like this:
+In that case you would call **all-that-sass** like this:
 
 ```javascript
 require('./sass-compiler')({
