@@ -1,0 +1,26 @@
+{
+  "author": {
+    "name": "Thomas Frank",
+    "email": "thomas@nodebite.se",
+    "url": "http://nodebite.se"
+  },
+  "bugs": {
+    "url": "https://github.com/ironboy/all-that-sass/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {},
+  "deprecated": false,
+  "description": "A npm module that watches folders and compiles SCSS",
+  "engines": {
+    "node": ">=9.0"
+  },
+  "homepage": "https://github.com/ironboy/all-that-sass#readme",
+  "license": "MIT",
+  "main": "index.js",
+  "name": "all-that-sass",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ironboy/all-that-sass.git"
+  },
+  "version": "1.0"
+}
