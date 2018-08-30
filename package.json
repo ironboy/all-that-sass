@@ -8,7 +8,10 @@
     "url": "https://github.com/ironboy/all-that-sass/issues"
   },
   "bundleDependencies": false,
-  "dependencies": {},
+  "dependencies": {
+    "chokidar": "^2.0.4",
+    "node-sass": "^4.9.3"
+  },
   "deprecated": false,
   "description": "A npm module that watches folders and compiles SCSS",
   "engines": {
@@ -22,5 +25,5 @@
     "type": "git",
     "url": "git+https://github.com/ironboy/all-that-sass.git"
   },
-  "version": "1.0"
+  "version": "1.0.3"
 }
