@@ -11,8 +11,7 @@ class SassCompiler {
       reportCompiles: false,
       outputStyle: 'expanded',
       // not options you would usually change
-      chokidarOptions: {ignored: /(^|[\/\\])\../},
-      lastCompileTime: 0
+      chokidarOptions: {ignored: /(^|[\/\\])\../}
     };
 
     // modules to require
@@ -20,7 +19,7 @@ class SassCompiler {
       fs: require('fs'),
       chokidar: require('chokidar'),
       sass: require('node-sass')
-    }
+    };
 
     // transfer defaults, config and modules to "this"
     Object.assign(this, defaults, config, modules); 
@@ -29,11 +28,10 @@ class SassCompiler {
     this.chokidar.watch(
       this.watch, this.chokidarOptions,
     ).on('all', () => {
-      // only compile if more than 100 ms since last
-      if(Date.now() - this.lastCompileTime > 100){
-        this.lastCompileTime = Date.now();
-        this.compile();
-      }
+      // throttle with 200 ms since chokidar triggers
+      // multiple times (mostly at start up)
+      clearTimeout(this.compileTimeout);
+      this.compileTimeout = setTimeout(() => this.compile(), 200);
     });
 
   }
@@ -41,20 +39,27 @@ class SassCompiler {
   compile(){
     // compile to sass and write to disk
     // if no error, otherwise output errors
+    let startTime = Date.now();
     this.sass.render({
       file: this.input, 
       outputStyle: this.outputStyle
     }, (error, result) => {
       if(error){
-        this.reportErrors && console.warn('SASS ' + error.formatted);
+        this.reportErrors && console.warn(
+          `SASS ${error.formatted.replace(/ {2,}/g,'')}\n`
+        );
       }
       else {
         this.fs.writeFileSync(this.output, result.css, 'utf-8');
-        this.reportCompiles && console.log('SASS: Compiled successfully to ' + this.output);
+        this.reportCompiles && console.log(
+          `SASS: Compiled successfully to ${this.output}` +
+          `\nTime taken: ${Date.now() - startTime} ms\n`
+        );
       }
     });
   }
 
 }
 
+// Export as factory
 module.exports = (config) => new SassCompiler(config);
