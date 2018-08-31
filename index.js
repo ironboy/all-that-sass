@@ -15,11 +15,11 @@ class SassCompiler {
     };
 
     // modules to require
-    const modules = {
-      fs: require('fs'),
-      chokidar: require('chokidar'),
-      sass: require('node-sass')
-    };
+    const modules = [
+      'fs', 'chokidar', 'node-sass|sass', 'chalk'
+    ].map((x) => this[x.split('|').pop()] = 
+      require(x.split('|').shift()));
+    
 
     // transfer defaults, config and modules to "this"
     Object.assign(this, defaults, config, modules); 
@@ -45,16 +45,16 @@ class SassCompiler {
       outputStyle: this.outputStyle
     }, (error, result) => {
       if(error){
-        this.reportErrors && console.warn(
-          `SASS ${error.formatted.replace(/ {2,}/g,'')}\n`
-        );
+        this.reportErrors && console.warn(this.chalk.red(
+          `\x1b[31mSASS\n${error.formatted}`
+        ));
       }
       else {
         this.fs.writeFileSync(this.output, result.css, 'utf-8');
-        this.reportCompiles && console.log(
+        this.reportCompiles && console.log(this.chalk.blue(
           `SASS: Compiled successfully to ${this.output}` +
           `\nTime taken: ${Date.now() - startTime} ms\n`
-        );
+        ));
       }
     });
   }

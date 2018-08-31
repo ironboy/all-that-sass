@@ -9,6 +9,7 @@
   },
   "bundleDependencies": false,
   "dependencies": {
+    "chalk": "^2.4.1",
     "chokidar": "^2.0.4",
     "node-sass": "^4.9.3"
   },
@@ -25,5 +26,5 @@
     "type": "git",
     "url": "git+https://github.com/ironboy/all-that-sass.git"
   },
-  "version": "1.0.5"
+  "version": "1.0.6"
 }
