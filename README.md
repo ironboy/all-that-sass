@@ -42,7 +42,7 @@ Most probably you might want to change a few settings. For example, the path to 
 In that case you would call **all-that-sass** like this:
 
 ```javascript
-require('./sass-compiler')({
+require('./all-that-sass')({
   watch:  './scss',
   input:  './scss/main.scss',
   output: './public/style.css',
