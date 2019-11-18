@@ -27,7 +27,7 @@ class SassCompiler {
     // correct absolute paths
     let basePath = this.path.dirname(process.mainModule.filename);
     'watch input output'.split(' ').forEach(x =>
-      this[x] = this.path.resolve(basePath, x)
+      this[x] = this.path.resolve(basePath, this[x])
     );
 
     // compile on file changes
