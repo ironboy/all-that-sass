@@ -1,6 +1,6 @@
 class SassCompiler {
 
-  constructor(config = {}){
+  constructor(config = {}) {
 
     // default values - can be overridden with config
     const defaults = {
@@ -11,18 +11,24 @@ class SassCompiler {
       reportCompiles: false,
       outputStyle: 'expanded',
       // not options you would usually change
-      chokidarOptions: {ignored: /(^|[\/\\])\../}
+      chokidarOptions: { ignored: /(^|[\/\\])\../ }
     };
 
     // modules to require
     const modules = [
-      'fs', 'chokidar', 'node-sass|sass', 'chalk'
-    ].map((x) => this[x.split('|').pop()] = 
+      'fs', 'path', 'chokidar', 'node-sass|sass', 'chalk'
+    ].map((x) => this[x.split('|').pop()] =
       require(x.split('|').shift()));
-    
+
 
     // transfer defaults, config and modules to "this"
-    Object.assign(this, defaults, config, modules); 
+    Object.assign(this, defaults, config, modules);
+
+    // correct absolute paths
+    let basePath = this.path.dirname(process.mainModule.filename);
+    'watch input output'.split(' ').forEach(x =>
+      this[x] = this.path.resolve(basePath, x)
+    );
 
     // compile on file changes
     this.chokidar.watch(
@@ -36,15 +42,15 @@ class SassCompiler {
 
   }
 
-  compile(){
+  compile() {
     // compile to sass and write to disk
     // if no error, otherwise output errors
     let startTime = Date.now();
     this.sass.render({
-      file: this.input, 
+      file: this.input,
       outputStyle: this.outputStyle
     }, (error, result) => {
-      if(error){
+      if (error) {
         this.reportErrors && console.warn(this.chalk.red(
           `\x1b[31mSASS\n${error.formatted}`
         ));
